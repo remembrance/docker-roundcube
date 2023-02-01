@@ -1,0 +1,8 @@
+--- a/plugins/calendar/drivers/database/SQL/mysql.initial.sql.orig	2022-02-01 21:34:27.000000000 +0100
++++ b/plugins/calendar/drivers/database/SQL/mysql.initial.sql	2022-02-01 21:34:40.000000000 +0100
+@@ -82,4 +82,4 @@ CREATE TABLE IF NOT EXISTS `itipinvitati
+     REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+ ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
+ 
+-REPLACE INTO system (name, value) VALUES ('calendar-database-version', '2015022700');
++REPLACE INTO `system` (name, value) VALUES ('calendar-version', '2015022700');

@@ -1,0 +1,15 @@
+diff --git a/skins/elastic/swipe.less b/skins/elastic/swipe.less
+index 1855c5d..a27d05c 100644
+--- a/skins/elastic/swipe.less
++++ b/skins/elastic/swipe.less
+@@ -142,6 +142,10 @@
+   }
+ }
+
++.swipe-active:not(#swipe-action) {
++  display: table-row;
++}
++
+ .swipe-active:not(#swipe-action),
+ .swipe-active > td {
+   background-color: @color-layout-list-background;

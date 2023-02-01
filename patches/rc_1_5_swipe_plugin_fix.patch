@@ -1,0 +1,10 @@
+--- a/skins/elastic/styles/widgets/lists.less	2022-02-20 12:53:36.000000000 +0100
++++ b/skins/elastic/styles/widgets/lists.less	2022-02-20 12:54:20.000000000 +0100
+@@ -794,7 +794,6 @@ html.touch {
+     .messagelist {
+         tr {
+             position: relative;
+-            display: flex; // Safari fix (#8433)
+         }
+ 
+         td.selection,
