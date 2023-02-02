@@ -11,10 +11,13 @@ WORKDIR /var/www
 USER root
 
 # build dependencies
-RUN apk add -U unzip file npm patch git
+RUN apk add -U unzip file npm patch git \
+  && npm install -g less uglify-js less-plugin-clean-css csso-cli
 
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY patches /var/tmp
+
+USER phpapp
 
 # checkout roundcube source
 RUN bash -c "export VERSION=release-${ROUNDCUBE_VERSION%.*} \
@@ -35,18 +38,17 @@ RUN mv composer.json-dist composer.json \
   # as done in patch for plugin-installer \
   # start with package roundcube to initialize this too \
   && echo "roundcube:/var/www/SQL" > .db_init \
-  && composer require --update-no-dev roundcube/plugin-installer:* \
+  && composer require --working-dir=/var/www --update-no-dev roundcube/plugin-installer:* \
   && patch -p1 < /var/tmp/rc_plugin_installer_skip_db_init.patch \
   \
   # install plugins \
-  && composer require --update-no-dev \
+  && composer require --working-dir=/var/www --update-no-dev \
   roundcube/carddav:* \
   johndoh/contextmenu \
   johndoh/sauserprefs \
   dondominio/ddnotes \
   johndoh/swipe \
   kolab/calendar \
-  && ls -l . \
   && find . -type d -name vendor \
   && ln -svf ../../vendor plugins/carddav/vendor \
   && composer clear-cache \
@@ -58,8 +60,6 @@ RUN mv composer.json-dist composer.json \
   # https://github.com/roundcube/roundcubemail/issues/8433 \
   # https://github.com/johndoh/roundcube-swipe/issues/21 \
   # && patch -p1 < /var/tmp/rc_1_5_swipe_plugin_fix.patch \
-  \
-  && npm install -g less uglify-js less-plugin-clean-css csso-cli \
   \
   # shrink static assets if no debug image \
   && if [ -z "${DEBUG}" ]; then \
