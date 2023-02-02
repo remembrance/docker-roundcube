@@ -46,7 +46,8 @@ RUN mv composer.json-dist composer.json \
   dondominio/ddnotes \
   johndoh/swipe \
   kolab/calendar \
-  && ls -l ../../ \
+  && ls -l . \
+  && find . -type d -name vendor \
   && ln -svf ../../vendor plugins/carddav/vendor \
   && composer clear-cache \
   \
