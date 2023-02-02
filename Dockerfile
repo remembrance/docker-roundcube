@@ -46,8 +46,7 @@ RUN mv composer.json-dist composer.json \
   dondominio/ddnotes \
   johndoh/swipe \
   kolab/calendar \
-  && ls -l ../../ \
-  && ln -svf ../../vendor plugins/carddav/vendor \
+  # && ln -svf ../../vendor plugins/carddav/vendor \
   && composer clear-cache \
   \
   # fix buggy mysql init command for calendar plugin - table not quoted and package name wrong \
