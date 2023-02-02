@@ -17,6 +17,15 @@ export PATH=/var/www/bin:$PATH
 echo "Linking error log."
 ln -snf /dev/stderr /var/www/logs/errors.log
 
+# stupid fix for ROUNDCUBE_ variables not supporting arrays or objects
+if [ -n "${RCCONFIG}" ]; then
+	echo "=== Using provisioned configuration from environment. ==="
+	echo -n "${RCCONFIG}" | base64 -d >"${CONFIG}"
+	chmod 600 "${CONFIG}"
+else
+	cp /var/www/config/config.inc.php.sample "${CONFIG}"
+fi
+
 echo "Running MySQL database initializations and migrations."
 while IFS=':' read -r package_name dir; do
 	echo "Init MySQL schema for plugin ${package_name} and with directory ${dir}."
@@ -32,12 +41,3 @@ while IFS=':' read -r package_name dir; do
 		echo "Update db for ${package_name} succeeded."
 	fi
 done <.db_init
-
-# stupid fix for ROUNDCUBE_ variables not supporting arrays or objects
-if [ -n "${RCCONFIG}" ]; then
-	echo "=== Using provisioned configuration from environment. ==="
-	echo -n "${RCCONFIG}" | base64 -d >"${CONFIG}"
-	chmod 600 "${CONFIG}"
-else
-	cp /var/www/config/config.inc.php.sample "${CONFIG}"
-fi
