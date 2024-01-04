@@ -2,7 +2,7 @@ FROM gutmensch/php74:1.0.0 AS builder
 
 LABEL maintainer="Robert Schumann <rs@n-os.org>"
 
-ARG ROUNDCUBE_VERSION=1.6.1
+ARG ROUNDCUBE_VERSION=1.6.5
 ARG DEBUG
 ARG COMMIT
 
